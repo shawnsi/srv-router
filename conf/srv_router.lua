@@ -32,6 +32,11 @@ function service_name(reqdomain)
                                 return "home"
                         end
 
+                        -- convert to http://tools.ietf.org/html/rfc2782 format
+                        if ngx.var.rfc2782 == "true" then
+                                return string.gsub(upstream, "([^.]+)(.*)", "_%1._tcp%2")
+                        end
+
                         -- return full subdomain if keep_tags in enabled
                         if ngx.var.keep_tags == "true" then
                                 return upstream
